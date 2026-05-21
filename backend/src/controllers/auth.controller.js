@@ -19,8 +19,8 @@ const sendTokenResponse = (user, statusCode, res) => {
   const cookieOptions = {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    secure: true, // Required for sameSite: 'none'
+    sameSite: 'none', // Allow cross-domain cookies
   };
 
   res.cookie('token', token, cookieOptions);
@@ -103,7 +103,7 @@ const login = async (req, res, next) => {
 // POST /api/auth/logout
 
 const logout = (req, res) => {
-  res.cookie('token', '', { expires: new Date(0), httpOnly: true });
+  res.cookie('token', '', { expires: new Date(0), httpOnly: true, secure: true, sameSite: 'none' });
   res.status(200).json({ message: 'Logged out successfully' });
 };
 
