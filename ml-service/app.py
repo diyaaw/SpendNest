@@ -437,6 +437,7 @@ def internal_error(err):
 
 if __name__ == "__main__":
     import os
-    logger.info("🚀 Starting SpendNest ML Service on http://localhost:8000")
+    port = int(os.environ.get("PORT", 8000))
+    logger.info(f"🚀 Starting SpendNest ML Service on http://0.0.0.0:{port}")
     debug_mode = os.getenv("FLASK_DEBUG", "false").lower() == "true"
-    app.run(host="0.0.0.0", port=8000, debug=debug_mode, use_reloader=debug_mode, threaded=True)
+    app.run(host="0.0.0.0", port=port, debug=debug_mode, use_reloader=debug_mode, threaded=True)
